@@ -1,0 +1,13 @@
+version: "3.4"
+
+services:
+  ps4-ros:
+    build: ps4-ros/.
+    privileged: true
+    devices:
+      - "/dev/input/js0:/dev/input/js0"
+    depends_on:
+      - rosmaster
+    environment:
+      - ROS_MASTER_URI=http://rosmaster:11311
+    command: unbuffer /bin/bash -c "sleep 3 && source /root/catkin_ws/devel/setup.sh && roslaunch ps4_ros ps4_ros.launch"
