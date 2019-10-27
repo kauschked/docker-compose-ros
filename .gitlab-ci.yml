@@ -1,0 +1,11 @@
+before_script:
+  - docker info
+  - cd ros-packages
+
+stages:
+  - build
+
+build:
+  stage: build
+  script:
+    - docker-compose build

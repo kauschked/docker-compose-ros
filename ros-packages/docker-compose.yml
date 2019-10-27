@@ -1,0 +1,19 @@
+version: "3.4"
+
+services:
+  rosmaster:
+    build: roscore/.
+    privileged: true
+    environment:
+      - ROS_MASTER_URI=http://rosmaster:11311
+    command: unbuffer roscore
+  lidar-ros:
+    build: lidar-ros/.
+    privileged: true
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    depends_on:
+      - rosmaster
+    environment:
+      - ROS_MASTER_URI=http://rosmaster:11311
+    command: unbuffer /bin/bash -c "sleep 3 && source /root/catkin_ws/devel/setup.sh && roslaunch rplidar_ros rplidar.launch"
